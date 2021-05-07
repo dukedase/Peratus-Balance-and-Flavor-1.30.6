@@ -1,0 +1,7 @@
+government = monarchy
+government_rank = 3
+primary_culture = danish
+religion = protestant
+technology_group = western
+capital = 1982 # Blekinge
+

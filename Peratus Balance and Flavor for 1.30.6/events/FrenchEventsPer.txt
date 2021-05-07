@@ -1,0 +1,158 @@
+#### French Events ###
+### By Peratus ###
+
+
+namespace = per_french_events
+normal_or_historical_nations = yes
+
+### French Events
+
+country_event = { # French Gets an Explorer
+	id = per_french_events.1
+	title = "per_french_events.1.t"
+	desc = "per_french_events.1.desc"
+	picture = HARBOUR_eventPicture
+	
+	major = no
+	fire_only_once = yes
+	
+	trigger = {
+		tag = FRA
+		is_year = 1492
+	}
+	
+	mean_time_to_happen = {
+		months = 3
+	}
+	
+	option = {
+		name = "per_french_events.1.a"
+		set_country_flag = per_got_french_event_1
+		add_years_of_income = -0.5
+		add_prestige = 10
+		create_explorer = {
+			tradition = 75
+		}
+		add_country_modifier = {
+			name = per_french_exploration
+			duration = 7300 # 20 years
+		}
+	}
+	option = {
+		name = "per_french_events.1.b"
+		add_prestige = -10
+	}
+}
+
+country_event = { # French Gets an Explorer
+	id = per_french_events.2
+	title = "per_french_events.2.t"
+	desc = "per_french_events.2.desc"
+	picture = HARBOUR_eventPicture
+	
+	major = no
+	fire_only_once = yes
+	
+	trigger = {
+		tag = FRA
+		is_year = 1512
+		has_country_flag = per_got_french_event_1
+		OR = {
+			north_america = { has_discovered = ROOT }
+			south_america = { has_discovered = ROOT }
+			new_world = { has_discovered = ROOT }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 3
+	}
+	
+	option = {
+		name = "per_french_events.2.a"
+		set_country_flag = per_got_french_event_1
+		add_years_of_income = -0.5
+		add_prestige = 10
+		create_conquistador = {
+			tradition = 75
+		}
+		add_country_modifier = {
+			name = per_french_land_colonization
+			duration = 7300 # 20 years
+		}
+	}
+	option = {
+		name = "per_french_events.2.b"
+		add_prestige = -10
+	}
+}
+
+country_event = { # French Proclaim Event After AUH/AUE Formed
+	id = per_french_events.3
+	title = "per_french_events.3.t"
+	desc = "per_french_events.3.desc"
+	picture = BAD_WITH_MONARCH_eventPicture
+	
+	major = yes
+	fire_only_once = yes
+	
+	trigger = {
+		tag = FRA
+		OR = {
+			exists = AUH
+			exists = AUE
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1
+	}
+	
+	option = {
+		name = "per_french_events.3.a"
+		add_prestige = -5
+		IF = {
+			limit = {
+				exists = AUH
+			}
+			AUH = {
+				add_opinion = {
+					who = ROOT
+					modifier = french_proclaim_meme
+				}
+			}
+			AUH = { country_event = { ID = per_french_events.4 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUE
+			}
+			AUE = {
+				add_opinion = {
+					who = ROOT
+					modifier = french_proclaim_meme
+				}
+			}
+			AUE = { country_event = { ID = per_french_events.4 } }
+		}
+	}
+	option = {
+		name = "per_french_events.3.b"
+	}
+}
+
+country_event = { # Austrian Reaction To Insult
+	id = per_french_events.4
+	title = "per_french_events.4.t"
+	desc = "per_french_events.4.desc"
+	picture = ACCUSATION_eventPicture
+	
+	major = yes
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = "per_french_events.4.a"
+		add_prestige = -5
+	}
+}

@@ -1,0 +1,58 @@
+namespace = peratus_mod
+normal_or_historical_nations = yes
+
+# Southern Italy Gets Shit On
+
+country_event = {
+	id = peratus_mod.1
+	title = peratus_mod.1.t
+	desc = peratus_mod.1.d
+	picture = LOSING_SOUTHERN_ITALY_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+			has_country_flag = southernitalycflag
+			tag = SPA
+				OR = {
+					apulia_area = {
+						type = any
+						NOT = { owned_by = ROOT }
+					}
+					naples_area = {
+						type = any
+						NOT = { owned_by = ROOT }
+					}
+					calabria_area = {
+						type = any
+						NOT = { owned_by = ROOT }
+					}
+					sicily_area = {
+						type = any
+						NOT = { owned_by = ROOT }
+					}
+					western_sicily_area = {
+						type = any
+						NOT = { owned_by = ROOT }
+					}
+				}
+	}
+	option = {
+		name = "peratus_mod.1.a"
+		naples_area = {
+			remove_province_modifier = "spanish_italian_recruitment"
+		}
+		apulia_area = {
+			remove_province_modifier = "spanish_italian_recruitment"
+		}
+		calabria_area = {
+			remove_province_modifier = "spanish_italian_recruitment"
+		}
+		sicily_area = {
+			remove_province_modifier = "spanish_italian_recruitment"
+		}
+		western_sicily_area = {
+			remove_province_modifier = "spanish_italian_recruitment"
+		}		
+	}
+}

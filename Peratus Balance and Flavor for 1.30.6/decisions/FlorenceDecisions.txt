@@ -1,0 +1,25 @@
+country_decisions = {
+
+		florence_early_buff_decision = {
+			major = yes
+			potential = {
+				tag = LAN
+				NOT = { has_country_flag = florenceearlybuff }
+			}
+			allow = {
+				tag = LAN
+				stability = 1
+				prestige = 5
+				NOT = {
+					is_year = 1455
+				}
+			}
+				effect = {
+					set_country_flag = florenceearlybuff
+					add_country_modifier = {
+						name = "florence_early_buff"
+						duration = 5475 # 15 years
+					}
+				}
+		}
+}

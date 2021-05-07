@@ -1,0 +1,1547 @@
+#### Great North Italian War ###
+### By Peratus ###
+
+
+namespace = per_north_italian_war
+normal_or_historical_nations = yes
+
+### Great Italian War
+
+country_event = { #Austria Starts The War
+	id = per_north_italian_war.1
+	title = "per_north_italian_war.1.t"
+	desc = "per_north_italian_war.1.desc"
+	picture = per_north_italian_war_EVENTpicture
+	
+	major = yes
+	
+	fire_only_once = yes
+	
+	trigger = {
+		is_free_or_tributary_trigger = yes
+		NOT = { has_global_flag = north_italian_war_start }
+		AND = {
+			OR = {
+				tag = HAB
+				tag = AUH
+				tag = AUE
+			}
+			FRA = {
+				num_of_owned_provinces_with = {
+					value = 8
+					region = italy_region
+					country_or_non_sovereign_subject_holds = FRA
+				}
+			}
+			OR = {
+				HAB = {
+					num_of_owned_provinces_with = {
+						value = 10
+						region = italy_region
+						country_or_non_sovereign_subject_holds = HAB
+					}
+				}
+				AUE = {
+					num_of_owned_provinces_with = {
+						value = 10
+						region = italy_region
+						country_or_non_sovereign_subject_holds = AUE
+					}
+				}
+				AUH = {
+					num_of_owned_provinces_with = {
+						value = 10
+						region = italy_region
+						country_or_non_sovereign_subject_holds = AUH
+					}
+				}
+			}
+		}		
+	}
+	
+	immediate = {
+		set_global_flag = north_italian_war_start
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.2
+			is_year = 1600
+		}
+	}
+	
+	option = {
+		name = "per_north_italian_war.1.a"
+		ai_chance = { factor = 90 }
+		IF = {
+			limit = {
+				exists = FRA
+			}
+			FRA = { country_event = { ID = per_north_italian_war.3 } }
+		}
+	}
+	option = {
+		name = "per_north_italian_war.1.b"
+		ai_chance = { factor = 10 }
+		add_stability = -1
+		add_prestige = -20
+		add_legitimacy = -20
+		change_estate_land_share = {
+			estate = estate_nobles
+			share = 5
+		}
+		random_owned_province = { create_revolt = 2 }
+	}
+}
+
+country_event = { # France Starts The War
+	id = per_north_italian_war.2
+	title = "per_north_italian_war.2.t"
+	desc = "per_north_italian_war.2.desc"
+	picture = per_north_italian_war_EVENTpicture
+	
+	major = yes
+	
+	fire_only_once = yes
+	
+	trigger = {
+		is_free_or_tributary_trigger = yes
+		NOT = { has_global_flag = north_italian_war_start }
+		AND = {
+			tag = FRA
+			OR = {			
+				HAB = {
+					num_of_owned_provinces_with = {
+						value = 10
+						region = italy_region
+						country_or_non_sovereign_subject_holds = HAB
+					}
+				}
+				AUE = {
+					num_of_owned_provinces_with = {
+						value = 10
+						region = italy_region
+						country_or_non_sovereign_subject_holds = AUE
+					}
+				}
+				AUH = {
+					num_of_owned_provinces_with = {
+						value = 10
+						region = italy_region
+						country_or_non_sovereign_subject_holds = AUH
+					}
+				}
+			}
+			FRA = {
+				num_of_owned_provinces_with = {
+					value = 10
+					region = italy_region
+					country_or_non_sovereign_subject_holds = FRA
+				}
+			}
+		}		
+	}
+	
+	immediate = {
+		set_global_flag = north_italian_war_start
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.2
+			is_year = 1600
+		}
+	}
+	
+	option = {
+		name = "per_north_italian_war.2.a"
+		ai_chance = { factor = 90 }
+		IF = {
+			limit = {
+				exists = HAB
+			}
+			HAB = { country_event = { ID = per_north_italian_war.3 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUE
+			}
+			AUE = { country_event = { ID = per_north_italian_war.3 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUH
+			}
+			AUH = { country_event = { ID = per_north_italian_war.3 } }
+		}
+	}
+	option = {
+		name = "per_north_italian_war.2.b"
+		ai_chance = { factor = 10 }
+		add_stability = -1
+		add_prestige = -20
+		add_legitimacy = -20
+		change_estate_land_share = {
+			estate = estate_nobles
+			share = 5
+		}
+		random_owned_province = { create_revolt = 2 }
+	}
+}
+
+country_event = { # Both nations choose to give up land in Italy or decline
+	id = per_north_italian_war.3
+	title = "per_north_italian_war.3.t"
+	desc = "per_north_italian_war.3.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	is_triggered_only = yes
+	
+	major = yes 
+	
+	option = { # Concede your land
+		name = "per_north_italian_war.3.a"
+		ai_chance = { factor = 5 }
+		IF = {
+			limit = {
+				OR = {
+					tag = HAB
+					tag = AUH
+					tag = AUE
+				}
+				exists = FRA
+			}
+			hidden_effect = {
+				every_subject_country = {
+					limit = {
+						ai = yes
+						capital_scope = {
+							AND = {
+								OR = {
+									region = italy_region
+									area = savoy_dauphine_area 
+								}
+								OR = {
+									culture_group = latin
+									culture = occitain
+								}
+							}
+						}
+					}
+					ROOT = { inherit = PREV }
+				}
+			}
+			custom_tooltip = cede_italy_tooltip_aus
+			hidden_effect = {
+				every_province = {
+					limit = {
+						owned_by = ROOT
+						not = { area = venetia_area }
+						OR = {
+							region = italy_region
+							region = france_region
+						}
+					}
+					add_core = FRA
+					cede_province = FRA
+					remove_core = ROOT
+				}
+			}
+			FRA = { country_event = { ID = per_north_italian_war.7 } }
+			add_stability = -1
+			add_prestige = -25
+			112 = { create_revolt = 2 }
+		}
+		else_if = {
+			tag = FRA
+			IF = {
+				limit = {
+					OR = {
+						exists = HAB
+						exists = AUH
+						exists = AUE
+					}
+				}
+				hidden_effect = {
+					every_subject_country = {
+						limit = {
+							ai = yes
+							capital_scope = {
+								AND = {
+									region = italy_region
+									culture_group = latin
+								}
+							}
+						}
+						ROOT = { inherit = PREV }
+					}
+				}
+			}
+			custom_tooltip = cede_italy_tooltip_fra
+			hidden_effect = {
+				every_province = {
+					limit = {
+						owned_by = ROOT
+						not = { area = piedmont_area }
+						not = { province_id = 2992 }
+						not = { province_id = 102 }
+						region = italy_region
+					}
+					add_core = FROM
+					cede_province = FROM
+					remove_core = FRA
+				}
+			}
+			IF = {
+				limit = {
+					exists = HAB
+				}
+				HAB = { country_event = { ID = per_north_italian_war.7 } }
+			}
+			else_if = {
+				limit = {
+					exists = AUE
+				}
+				AUE = { country_event = { ID = per_north_italian_war.7 } }
+			}
+			else_if = {
+				limit = {
+					exists = AUH
+				}
+				AUH = { country_event = { ID = per_north_italian_war.7 } }
+			}
+			add_stability = -1
+			add_prestige = -25
+			183 = { create_revolt = 2 }
+		}
+	}
+	option = {
+		name = "per_north_italian_war.3.b"
+		ai_chance = { factor = 95 }
+		IF = {
+			limit = {
+				OR = {
+					tag = HAB
+					tag = AUH
+					tag = AUE
+				}
+				exists = FRA
+			}
+			FRA = { country_event = { ID = per_north_italian_war.4 } }
+			add_prestige = 10			
+		}
+		else_if = {
+			tag = FRA
+			IF = {
+				limit = {
+					exists = HAB
+				}
+				HAB = { country_event = { ID = per_north_italian_war.5 } }
+			}
+			else_if = {
+				limit = {
+					exists = AUE
+				}
+				AUE = { country_event = { ID = per_north_italian_war.5 } }
+			}
+			else_if = {
+				limit = {
+					exists = AUH
+				}
+				AUH = { country_event = { ID = per_north_italian_war.5 } }
+			}
+			add_prestige = 10		
+		}
+	}
+}
+
+country_event = { # France Declares The War
+	id = per_north_italian_war.4
+	title = "per_north_italian_war.4.t"
+	desc = "per_north_italian_war.4.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = "per_north_italian_war.4.a"
+		ai_chance = { factor = 95 }
+		set_global_flag = great_italian_war_begins
+		IF = {
+			limit = {
+				exists = HAB
+			}
+			HAB = { country_event = { ID = per_north_italian_war.8 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUE
+			}
+			AUE = { country_event = { ID = per_north_italian_war.8 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUH
+			}
+			AUH = { country_event = { ID = per_north_italian_war.8 } }
+		}
+		ROOT = {
+			IF = {
+				limit = {
+					exists = HAB
+				}	
+				declare_war_with_cb = {
+					who = HAB
+					casus_belli = cb_italian_wars
+				}
+			}
+			IF = {
+				limit = {
+					exists = AUH
+				}	
+				declare_war_with_cb = {
+					who = AUH
+					casus_belli = cb_italian_wars
+				}
+			}
+			IF = {
+				limit = {
+					exists = AUE
+				}	
+				declare_war_with_cb = {
+					who = AUE
+					casus_belli = cb_italian_wars
+				}
+			}
+		}
+		add_country_modifier = {
+			name = italian_war_major_start
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = italian_war_tax_increase
+			duration = 3650
+		}
+		add_stability = 1
+		add_yearly_manpower = 3
+		add_years_of_income = 1.0
+	}
+	option = {
+		name = "per_north_italian_war.4.b"
+		ai_chance = { factor = 5 }
+		IF = {
+			limit = {
+				exists = HAB
+			}
+			HAB = { country_event = { ID = per_north_italian_war.6 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUE
+			}
+			AUE = { country_event = { ID = per_north_italian_war.6 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUH
+			}
+			AUH = { country_event = { ID = per_north_italian_war.6 } }
+		}
+		add_stability = -1
+		add_prestige = -25
+		add_country_modifier = {
+			name = italian_war_backdown_end
+			duration = 3650
+		}
+		183 = {	create_revolt = 2 }
+		195 = {	create_revolt = 1 }
+		random_owned_province = { create_revolt = 1 }
+		random_owned_province = { create_revolt = 1 }
+	}
+}
+
+country_event = { # Austria Declares The War
+	id = per_north_italian_war.5
+	title = "per_north_italian_war.5.t"
+	desc = "per_north_italian_war.5.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = "per_north_italian_war.5.a"
+		ai_chance = { factor = 95 }
+		set_global_flag = great_italian_war_begins
+		FRA = { country_event = { ID = per_north_italian_war.8 } }
+		ROOT = {
+			declare_war_with_cb = {
+				who = FRA
+				casus_belli = cb_italian_wars
+			}
+		}
+		add_country_modifier = {
+			name = italian_war_major_start
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = italian_war_tax_increase
+			duration = 3650
+		}
+		add_stability = 1
+		add_yearly_manpower = 3
+		add_years_of_income = 1.0
+	}
+	option = {
+		name = "per_north_italian_war.5.b"
+		ai_chance = { factor = 5 }
+		FRA = { country_event = { ID = per_north_italian_war.6 } }
+		add_stability = -1
+		add_prestige = -25
+		add_country_modifier = {
+			name = italian_war_backdown_end
+			duration = 3650
+		}
+		134 = {	create_revolt = 2 }
+		73 = { create_revolt = 1 }
+		random_owned_province = { create_revolt = 1 }
+		random_owned_province = { create_revolt = 1 }
+	}
+}
+
+country_event = { # Either Backs Down
+	id = per_north_italian_war.6
+	title = "per_north_italian_war.6.t"
+	desc = "per_north_italian_war.6.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = "per_north_italian_war.6.a"
+		IF = {
+			limit = {
+				OR = {
+					tag = HAB
+					tag = AUH
+					tag = AUE
+				}
+				exists = FRA
+			}
+			add_prestige = 25
+			italy_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+		else_if = {
+			tag = FRA
+			add_prestige = 25
+			italy_region = {
+			limit = {
+				NOT = { is_core = ROOT }
+				NOT = { is_permanent_claim = ROOT }
+			}
+			add_claim = ROOT	
+			}	
+		}
+	}
+}
+
+country_event = { # Either Gives In
+	id = per_north_italian_war.7
+	title = "per_north_italian_war.7.t"
+	desc = "per_north_italian_war.7.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = "per_north_italian_war.7.a"
+		IF = {
+			limit = {
+				OR = {
+					tag = HAB
+					tag = AUH
+					tag = AUE
+				}
+				exists = FRA
+			}
+			add_prestige = 50
+			italy_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+		else_if = {
+			tag = FRA
+			add_prestige = 50
+			italy_region = {
+			limit = {
+				NOT = { is_core = ROOT }
+				NOT = { is_permanent_claim = ROOT }
+			}
+			add_claim = ROOT	
+			}	
+		}
+	}
+}
+
+country_event = { # Nation Attacked Buff
+	id = per_north_italian_war.8
+	title = "per_north_italian_war.8.t"
+	desc = "per_north_italian_war.8.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = "per_north_italian_war.8.a"
+		IF = {
+			limit = {
+				OR = {
+					tag = HAB
+					tag = AUH
+					tag = AUE
+				}
+				exists = FRA
+			}
+			add_country_modifier = {
+				name = italian_war_major_start_defender
+				duration = 3650
+			}
+			add_yearly_manpower = 3
+			add_years_of_income = 1.0
+		}
+		else_if = {
+			tag = FRA
+			add_country_modifier = {
+				name = italian_war_major_start_defender
+				duration = 3650
+			}
+			add_yearly_manpower = 3
+			add_years_of_income = 1.0
+		}
+	}
+}
+
+country_event = { # Nations get event to join war
+	id = per_north_italian_war.9
+	title = "per_north_italian_war.9.t"
+	desc = "per_north_italian_war.9.desc"
+	picture = CITY_VIEW_eventPicture
+		
+	major = yes
+	
+	trigger = {
+		has_global_flag = great_italian_war_begins
+		NOT = { has_country_flag = great_italian_war_begins_got }
+		is_free_or_tributary_trigger = yes
+		OR = {
+			OR = {
+				tag = POL
+				tag = PLC
+			}
+			OR = {
+				tag = CAS
+				tag = ARA
+				tag = SPA
+			}
+			OR = {
+				tag = DAN
+				tag = SNE
+			}
+			OR = {
+				tag = ENG
+				tag = GBR
+				tag = IRE
+			}
+			OR = {
+				tag = LAN
+				tag = ITK
+			}
+			OR = {
+				tag = MLO
+			}
+			OR = {
+				tag = TUR
+			}
+		}
+	}
+	
+	immediate = {
+		set_country_flag = great_italian_war_begins_got
+	}
+	
+	option = { # Stay Neutral
+		name = "per_north_italian_war.9.a"
+		ai_chance = { factor = 40 }
+		add_prestige = -25
+	}
+	
+	option = { # Join Austria
+		name = "per_north_italian_war.9.b"
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 0
+				tag = TUR
+			}
+		}
+		IF = {
+			limit = {
+				exists = HAB
+			}
+			ROOT = {
+				custom_tooltip = join_italian_war_austria_tooltip
+				hidden_effect = {
+					join_all_offensive_wars_of = HAB
+					join_all_defensive_wars_of = HAB
+				}
+				add_country_modifier = {
+					name = italian_war_major_join_start
+					duration = 7300
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = AUH
+			}
+			ROOT = {
+				custom_tooltip = join_italian_war_austria_tooltip
+				hidden_effect = {
+					join_all_offensive_wars_of = HAB
+					join_all_defensive_wars_of = HAB
+				}
+				add_country_modifier = {
+					name = italian_war_major_join_start
+					duration = 7300
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = AUE
+			}
+			ROOT = {
+				custom_tooltip = join_italian_war_austria_tooltip
+				hidden_effect = {
+					join_all_offensive_wars_of = HAB
+					join_all_defensive_wars_of = HAB
+				}
+				add_country_modifier = {
+					name = italian_war_major_join_start
+					duration = 7300
+				}
+			}
+		}
+	}
+	
+	option = { # Join France
+		name = "per_north_italian_war.9.c"
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 0
+					OR = {
+						tag = ENG
+						tag = GBR
+						tag = IRE
+					}
+			}
+		}
+		ROOT = {
+			custom_tooltip = join_italian_war_france_tooltip
+				hidden_effect = {
+					join_all_offensive_wars_of = FRA
+					join_all_defensive_wars_of = FRA
+				}
+			add_country_modifier = {
+				name = italian_war_major_join_start
+				duration = 7300
+				}
+		}
+	}
+}
+
+country_event = { # 20 War Score Event France
+	id = per_north_italian_war.10
+	title = "per_north_italian_war.10.t"
+	desc = "per_north_italian_war.10.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	fire_only_once = yes
+	
+	trigger = {
+		has_global_flag = great_italian_war_begins
+		tag = FRA	
+		OR = {
+			war_score_against = {
+				who = HAB
+				value = 20
+			}
+			war_score_against = {
+				who = AUH
+				value = 20
+			}
+			war_score_against = {
+				who = AUE
+				value = 20
+			}
+		}
+	}
+	
+	immediate = {
+		set_global_flag = france_offered_20_peace
+	}
+	
+	option = { # Offer them an early peace
+		name = "per_north_italian_war.10.a"
+		IF = {
+			limit = {
+				exists = HAB
+			}
+			HAB = { country_event = { ID = per_north_italian_war.18 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUE
+			}
+			AUE = { country_event = { ID = per_north_italian_war.18 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUH
+			}
+			AUH = { country_event = { ID = per_north_italian_war.18 } }
+		}
+	}
+	option = { # Decline to offer an early peace
+		name = "per_north_italian_war.10.b"
+		add_prestige = 5
+	}
+}
+
+country_event = { # 40 War Score Event France
+	id = per_north_italian_war.11
+	title = "per_north_italian_war.11.t"
+	desc = "per_north_italian_war.11.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	fire_only_once = yes
+	
+	trigger = {
+		has_global_flag = france_offered_20_peace
+		tag = FRA	
+		OR = {
+			war_score_against = {
+				who = HAB
+				value = 40
+			}
+			war_score_against = {
+				who = AUH
+				value = 40
+			}
+			war_score_against = {
+				who = AUE
+				value = 40
+			}
+		}
+	}
+	
+	immediate = {
+		set_global_flag = france_offered_40_peace
+	}
+	
+	option = { # Offer them a peace
+		name = "per_north_italian_war.11.a"
+		IF = {
+			limit = {
+				exists = HAB
+			}
+			HAB = { country_event = { ID = per_north_italian_war.18 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUE
+			}
+			AUE = { country_event = { ID = per_north_italian_war.18 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUH
+			}
+			AUH = { country_event = { ID = per_north_italian_war.18 } }
+		}
+	}
+}
+
+country_event = { # 60 War Score Event France
+	id = per_north_italian_war.12
+	title = "per_north_italian_war.12.t"
+	desc = "per_north_italian_war.12.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	fire_only_once = yes
+	
+	trigger = {
+		has_global_flag = france_offered_40_peace
+		tag = FRA	
+		OR = {
+			war_score_against = {
+				who = HAB
+				value = 60
+			}
+			war_score_against = {
+				who = AUH
+				value = 60
+			}
+			war_score_against = {
+				who = AUE
+				value = 60
+			}
+		}
+	}
+	
+	immediate = {
+		set_global_flag = france_offered_60_peace
+	}
+	
+	option = { #Offer them a late peace
+		name = "per_north_italian_war.12.a"
+		IF = {
+			limit = {
+				exists = HAB
+			}
+			HAB = { country_event = { ID = per_north_italian_war.18 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUE
+			}
+			AUE = { country_event = { ID = per_north_italian_war.18 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUH
+			}
+			AUH = { country_event = { ID = per_north_italian_war.18 } }
+		}
+	}
+}
+
+country_event = { # 80 War Score Event France
+	id = per_north_italian_war.13
+	title = "per_north_italian_war.13.t"
+	desc = "per_north_italian_war.13.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	fire_only_once = yes
+	
+	trigger = {
+		has_global_flag = france_offered_60_peace
+		tag = FRA	
+		OR = {
+			war_score_against = {
+				who = HAB
+				value = 80
+			}
+			war_score_against = {
+				who = AUH
+				value = 80
+			}
+			war_score_against = {
+				who = AUE
+				value = 80
+			}
+		}
+	}
+	
+	immediate = {
+		set_global_flag = france_offered_80_peace
+	}
+	
+	option = { #Enforce our demands
+		name = "per_north_italian_war.13.a"
+		IF = {
+			limit = {
+				exists = HAB
+			}
+			HAB = { country_event = { ID = per_north_italian_war.19 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUE
+			}
+			AUE = { country_event = { ID = per_north_italian_war.19 } }
+		}
+		else_if = {
+			limit = {
+				exists = AUH
+			}
+			AUH = { country_event = { ID = per_north_italian_war.19 } }
+		}
+	}
+}
+
+country_event = { # 20 War Score Event Austria
+	id = per_north_italian_war.14
+	title = "per_north_italian_war.14.t"
+	desc = "per_north_italian_war.14.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	fire_only_once = yes
+	
+	trigger = {
+		has_global_flag = great_italian_war_begins
+		OR = {
+			tag = HAB
+			was_tag = HAB
+		}
+		war_score_against = {
+			who = FRA 
+			value = 20
+		}
+	}
+	
+	immediate = {
+		set_global_flag = austria_offered_20_peace
+	}
+	
+	option = { #Offer them an early peace 
+		name = "per_north_italian_war.14.a"
+		FRA = { country_event = { ID = per_north_italian_war.18 } }
+	}
+	option = { #Decline to offer an early peace
+		name = "per_north_italian_war.14.b"
+		add_prestige = 5
+	}
+}
+
+country_event = { # 40 War Score Event Austria
+	id = per_north_italian_war.15
+	title = "per_north_italian_war.15.t"
+	desc = "per_north_italian_war.15.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	fire_only_once = yes
+	
+	trigger = {
+		has_global_flag = austria_offered_20_peace
+		OR = {
+			tag = HAB
+			was_tag = HAB
+		}
+		war_score_against = {
+			who = FRA
+			value = 40
+		}
+	}
+	
+	immediate = {
+		set_global_flag = austria_offered_40_peace
+	}
+	
+	option = { #Offer them a peace
+		name = "per_north_italian_war.15.a"
+		FRA = { country_event = { ID = per_north_italian_war.18 } }
+	}
+}
+
+country_event = { # 60 War Score Event Austria
+	id = per_north_italian_war.16
+	title = "per_north_italian_war.16.t"
+	desc = "per_north_italian_war.16.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	fire_only_once = yes
+	
+	trigger = {
+		has_global_flag = austria_offered_40_peace
+		OR = {
+			tag = HAB
+			was_tag = HAB
+		}
+		war_score_against = {
+			who = FRA
+			value = 60
+		}
+	}
+	
+	immediate = {
+		set_global_flag = austria_offered_60_peace
+	}
+	
+	option = { #Offer them a late peace
+		name = "per_north_italian_war.16.a"
+		FRA = { country_event = { ID = per_north_italian_war.18 } }
+	}
+}
+
+country_event = { # 80 War Score Event Austria
+	id = per_north_italian_war.17
+	title = "per_north_italian_war.17.t"
+	desc = "per_north_italian_war.17.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	fire_only_once = yes
+	
+	trigger = {
+		has_global_flag = austria_offered_60_peace
+		OR = {
+			tag = HAB
+			was_tag = HAB
+		}
+		war_score_against = {
+			who = FRA
+			value = 80
+		}
+	}
+	
+	immediate = {
+		set_global_flag = austria_offered_80_peace
+	}
+	
+	option = { #Enforce our demands
+		name = "per_north_italian_war.17.a"
+		FRA = { country_event = { ID = per_north_italian_war.19 } }
+	}
+}
+
+country_event = { # 20-60 Peace option demanding land
+	id = per_north_italian_war.18
+	title = "per_north_italian_war.18.t"
+	desc = "per_north_italian_war.18.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	is_triggered_only = yes
+	
+	major = yes 
+	
+	option = { # Concede your land
+		name = "per_north_italian_war.18.a"
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 35
+				war_score = -40
+			}
+			modifier = {
+				factor = 45
+				war_score = -60
+			}
+		}
+		add_prestige = -25
+		IF = {
+			limit = {
+				OR = {
+					tag = HAB
+					tag = AUH
+					tag = AUE
+				}
+				exists = FRA
+			}
+			white_peace = FRA
+			hidden_effect = {
+				every_subject_country = {
+					limit = {
+						ai = yes
+						capital_scope = {
+							AND = {
+								OR = {
+									region = italy_region
+									area = savoy_dauphine_area 
+								}
+								OR = {
+									culture_group = latin
+									culture = occitain
+								}
+							}
+						}
+					}
+					ROOT = { inherit = PREV }
+				}
+			}
+			custom_tooltip = cede_italy_tooltip_aus
+			every_province = {
+				limit = {
+					owned_by = ROOT
+					not = { area = venetia_area }
+					OR = {
+						region = italy_region
+						region = france_region
+					}
+				}
+				hidden_effect = {
+					add_core = FRA
+					cede_province = FRA
+					remove_core = ROOT
+				}
+			}
+			FRA = { country_event = { ID = per_north_italian_war.20 } }
+		}
+		else_if = {
+			tag = FRA
+			IF = {
+				limit = {
+					OR = {
+						exists = HAB
+						exists = AUH
+						exists = AUE
+					}
+				}
+				hidden_effect = {
+					every_subject_country = {
+						limit = {
+							ai = yes
+							capital_scope = {
+								AND = {
+									region = italy_region
+									culture_group = latin
+								}
+							}
+						}
+						ROOT = { inherit = PREV }
+					}
+				}
+			}
+			custom_tooltip = cede_italy_tooltip_fra
+			every_province = {
+				limit = {
+					owned_by = ROOT
+					not = { area = piedmont_area }
+					not = { province_id = 2992 }
+					not = { province_id = 102 }
+					region = italy_region
+				}
+				hidden_effect = {
+					add_core = FROM
+					cede_province = FROM
+					remove_core = FRA
+				}
+			}
+			IF = {
+				limit = {
+					exists = HAB
+				}
+				HAB = { country_event = { ID = per_north_italian_war.21 } }
+				white_peace = HAB
+			}
+			else_if = {
+				limit = {
+					exists = AUE
+				}
+				AUE = { country_event = { ID = per_north_italian_war.21 } }
+				white_peace = AUE
+			}
+			else_if = {
+				limit = {
+					exists = AUH
+				}
+				AUH = { country_event = { ID = per_north_italian_war.21 } }
+				white_peace = AUH
+			}
+		}
+	}
+	option = { # Refuse
+		name = "per_north_italian_war.18.b"
+		ai_chance = {
+			factor = 80
+			modifier = {
+				factor = 65
+				war_score = -40
+			}
+			modifier = {
+				factor = 55
+				war_score = -60
+			}
+		}
+		IF = {
+			limit = {
+				OR = {
+					tag = HAB
+					tag = AUH
+					tag = AUE
+				}
+				exists = FRA
+			}
+			FRA = { country_event = { ID = per_north_italian_war.23 } }
+			add_prestige = 10			
+		}
+		else_if = {
+			tag = FRA
+			IF = {
+				limit = {
+					exists = HAB
+				}
+				HAB = { country_event = { ID = per_north_italian_war.22 } }
+			}
+			else_if = {
+				limit = {
+					exists = AUE
+				}
+				AUE = { country_event = { ID = per_north_italian_war.22 } }
+			}
+			else_if = {
+				limit = {
+					exists = AUH
+				}
+				AUH = { country_event = { ID = per_north_italian_war.22 } }
+			}
+			add_prestige = 10		
+		}
+	}
+}
+
+country_event = { # Enforce demands 80
+	id = per_north_italian_war.19
+	title = "per_north_italian_war.19.t"
+	desc = "per_north_italian_war.19.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	is_triggered_only = yes
+	
+	major = yes 
+	
+	immediate = {
+		set_global_flag = italian_war_demands_enforced
+	}
+	
+	option = { # Concede the war
+		name = "per_north_italian_war.19.a"
+		IF = {
+			limit = {
+				OR = {
+					tag = HAB
+					tag = AUH
+					tag = AUE
+				}
+				exists = FRA
+			}
+			hidden_effect = {
+				every_subject_country = {
+					limit = {
+						ai = yes
+						capital_scope = {
+							AND = {
+								OR = {
+									region = italy_region
+									area = savoy_dauphine_area 
+								}
+								OR = {
+									culture_group = latin
+									culture = occitain
+								}
+							}
+						}
+					}
+					ROOT = { inherit = PREV }
+				}
+			}
+			every_province = {
+				limit = {
+					owned_by = ROOT
+					not = { area = venetia_area }
+					OR = {
+						region = italy_region
+						region = france_region
+					}
+				}
+				custom_tooltip = cede_italy_tooltip_aus
+				hidden_effect = {
+					add_core = FRA
+					cede_province = FRA
+					remove_core = HAB
+				}
+			}
+			FRA = { country_event = { ID = per_north_italian_war.20 } }
+			white_peace = FRA
+			add_stability = 1
+			add_prestige = -25
+		}
+		else_if = {
+			tag = FRA
+			IF = {
+				limit = {
+					OR = {
+						exists = HAB
+						exists = AUH
+						exists = AUE
+					}
+				}
+				hidden_effect = {
+					every_subject_country = {
+						limit = {
+							ai = yes
+							capital_scope = {
+								AND = {
+									region = italy_region
+									culture_group = latin
+								}
+							}
+						}
+						ROOT = { inherit = PREV }
+					}
+				}
+			}
+			custom_tooltip = cede_italy_tooltip_fra
+			every_province = {
+				limit = {
+					owned_by = ROOT
+					not = { area = piedmont_area }
+					not = { province_id = 2992 }
+					not = { province_id = 102 }
+					region = italy_region
+				}
+				hidden_effect = {
+					add_core = FROM
+					cede_province = FROM
+					remove_core = FRA
+				}
+			}
+			IF = {
+				limit = {
+					exists = HAB
+				}
+				HAB = { country_event = { ID = per_north_italian_war.21 } }
+				white_peace = HAB
+			}
+			else_if = {
+				limit = {
+					exists = AUE
+				}
+				AUE = { country_event = { ID = per_north_italian_war.21 } }
+				white_peace = AUE
+			}
+			else_if = {
+				limit = {
+					exists = AUH
+				}
+				AUH = { country_event = { ID = per_north_italian_war.21 } }
+				white_peace = AUH
+			}
+			add_stability = 1
+			add_prestige = -25
+		}
+	}
+}
+
+country_event = { # France Wins
+	id = per_north_italian_war.20
+	title = "per_north_italian_war.20.t"
+	desc = "per_north_italian_war.20.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		set_global_flag = end_of_italian_war
+	}
+	
+	option = {
+		name = "per_north_italian_war.20.a"
+		IF = {
+			tag = FRA
+			add_stability = 1
+			add_prestige = 25
+			add_legitimacy = 25
+			italy_region = {
+			limit = {
+				NOT = { is_core = ROOT }
+				NOT = { is_permanent_claim = ROOT }
+			}
+			add_claim = ROOT	
+			}	
+		}
+	}
+}
+
+country_event = { # Austria Wins
+	id = per_north_italian_war.21
+	title = "per_north_italian_war.21.t"
+	desc = "per_north_italian_war.21.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = "per_north_italian_war.21.a"
+		IF = {
+			limit = {
+				OR = {
+					tag = HAB
+					tag = AUH
+					tag = AUE
+				}
+				exists = FRA
+			}
+			add_stability = 1
+			add_prestige = 25
+			add_legitimacy = 25
+			italy_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+}
+
+country_event = { # France Refuses 25-75 Peace
+	id = per_north_italian_war.22
+	title = "per_north_italian_war.22.t"
+	desc = "per_north_italian_war.22.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	is_triggered_only = yes
+	
+	option = { # Okay
+		name = "per_north_italian_war.22.a"
+	}
+}
+
+country_event = { # Austria Refuses 25-75 Peace
+	id = per_north_italian_war.23
+	title = "per_north_italian_war.23.t"
+	desc = "per_north_italian_war.23.desc"
+	picture = north_italian_war_EVENTpicture
+	
+	major = yes
+	is_triggered_only = yes
+	
+	
+	option = { # Okay
+		name = "per_north_italian_war.23.a"
+	}
+}

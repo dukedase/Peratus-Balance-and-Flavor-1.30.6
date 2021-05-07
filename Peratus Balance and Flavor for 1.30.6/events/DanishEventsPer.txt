@@ -1,0 +1,60 @@
+#### Danish Events ###
+### By Peratus ###
+
+
+namespace = per_danish_events
+normal_or_historical_nations = yes
+
+### Danish Events
+
+country_event = { # Denmark Dithmarschen Mission Gold
+	id = per_danish_events.1
+	title = "per_danish_events.1.t"
+	desc = "per_danish_events.1.desc"
+	picture = TRADE_GOODS_METALS_AND_MINING_EQUIPENT_eventPicture
+	
+	major = no
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = "per_danish_events.1.a"
+		add_years_of_income = -0.5
+		4141 = {
+			change_trade_goods = gold
+		}
+	}
+	option = {
+		name = "per_danish_events.1.b"
+		add_prestige = -10
+	}
+}
+
+country_event = { # Denmark Proto Industrialization
+	id = per_danish_events.2
+	title = "per_danish_events.2.t"
+	desc = "per_danish_events.2.desc"
+	picture = TRADE_GOODS_PLANTATION_GOODS_IN_WAREHOUSE_eventPicture
+	
+	major = no
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = "per_danish_events.2.a"
+		add_years_of_income = -0.5
+		14 = {
+			change_trade_goods = glass
+		}
+		1982 = {
+			change_trade_goods = salt
+		}
+		4142 = {
+			change_trade_goods = dyes
+		}
+	}
+	option = {
+		name = "per_danish_events.2.b"
+		add_prestige = -10
+	}
+}

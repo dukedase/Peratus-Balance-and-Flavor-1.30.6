@@ -1,0 +1,88 @@
+country_decisions = {
+
+		consolidate_southern_italy = {
+			major = yes
+			potential = {
+				tag =  SPA
+				NOT = { has_country_flag = southernitalycflag }
+				}
+			allow = {
+					apulia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT	
+				}
+					naples_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT	
+				}
+					calabria_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT	
+				}
+					sicily_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT	
+				}
+					western_sicily_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT	
+				}
+			}
+				effect = {
+					set_country_flag = southernitalycflag
+					add_accepted_culture = neapolitan
+					add_accepted_culture = sicilian
+					apulia_area = {
+						add_province_modifier = {
+							name = "spanish_italian_recruitment"
+							duration = -1
+						}
+						add_province_modifier = {
+							name = "spanish_consolidation_italy"
+							duration = 9125 #25 years
+						}
+					}
+					naples_area = { 
+						add_province_modifier = {
+							name = "spanish_italian_recruitment"
+							duration = -1
+						}
+						add_province_modifier = {
+							name = "spanish_consolidation_italy"
+							duration = 9125
+						}
+					}
+					calabria_area = { 
+						add_province_modifier = {
+							name = "spanish_italian_recruitment"
+							duration = -1
+						}
+						add_province_modifier = {
+							name = "spanish_consolidation_italy"
+							duration = 9125
+						}
+					}
+					sicily_area = { 
+						add_province_modifier = {
+							name = "spanish_italian_recruitment"
+							duration = -1
+						}
+						add_province_modifier = {
+							name = "spanish_consolidation_italy"
+							duration = 9125
+						}
+					}
+					western_sicily_area = { 
+						add_province_modifier = {
+							name = "spanish_italian_recruitment"
+							duration = -1
+						}
+						add_province_modifier = {
+							name = "spanish_consolidation_italy"
+							duration = 9125
+						}
+					}
+					
+				}
+		}
+}

@@ -1,0 +1,147 @@
+country_decisions = {
+
+	giw_surrender_decision = {
+		major = yes
+		potential = {
+			OR = {
+				tag = HAB
+				tag = FRA
+				was_tag = HAB
+			}
+			has_global_flag = great_italian_war_begins
+			NOT = { has_country_flag = surrender_decision_taken }
+			NOT = { has_country_flag = end_of_italian_war }
+			is_free_or_tributary_trigger = yes
+			ai = no
+		}
+		
+		allow = {
+		}
+		
+		effect = {
+			set_country_flag = end_of_italian_war
+			IF = {
+				limit = {
+					OR = {
+						tag = HAB
+						tag = AUH
+						tag = AUE
+					}
+					exists = FRA
+				}
+				custom_tooltip = cede_italy_tooltip_aus
+				add_stability = 1
+				add_prestige = -25
+				random_owned_province = { create_revolt = 2 }
+				white_peace = FRA
+				hidden_effect = {
+					every_subject_country = {
+						limit = {
+							ai = yes
+							capital_scope = {
+								AND = {
+									OR = {
+										region = italy_region
+										area = savoy_dauphine_area 
+									}
+									OR = {
+										culture_group = latin
+										culture = occitain
+									}
+								}
+							}
+						}
+						ROOT = { inherit = PREV }
+					}
+				}
+				every_province = {
+					limit = {
+						owned_by = ROOT
+						not = { area = venetia_area }
+						OR = {
+							region = italy_region
+							region = france_region
+						}
+					}
+					hidden_effect = {
+						add_core = FRA
+						cede_province = FRA
+						remove_core = ROOT
+					}
+				}
+				FRA = { country_event = { ID = per_north_italian_war.20 } }
+			}
+			else_if = {
+				tag = FRA
+				custom_tooltip = cede_italy_tooltip_fra
+				IF = {
+					limit = {
+						OR = {
+							exists = HAB
+							exists = AUH
+							exists = AUE
+						}
+					}
+					hidden_effect = {
+						every_subject_country = {
+							limit = {
+								ai = yes
+								capital_scope = {
+									AND = {
+										region = italy_region
+										culture_group = latin
+									}
+								}
+							}
+							ROOT = { inherit = PREV }
+						}
+					}
+				}
+				every_province = {
+					limit = {
+						owned_by = ROOT
+						not = { area = piedmont_area }
+						not = { province_id = 2992 }
+						not = { province_id = 102 }
+						region = italy_region
+					}
+					hidden_effect = {
+						add_core = FROM
+						cede_province = FROM
+						remove_core = FRA
+					}
+				}
+				IF = {
+					limit = {
+						exists = HAB
+					}
+					HAB = { country_event = { ID = per_north_italian_war.21 } }
+					add_stability = 1
+					add_prestige = -25
+					random_owned_province = { create_revolt = 2 }
+					white_peace = HAB
+				}
+				else_if = {
+					limit = {
+						exists = AUE
+					}
+					AUE = { country_event = { ID = per_north_italian_war.21 } }
+					add_stability = 1
+					add_prestige = -25
+					random_owned_province = { create_revolt = 2 }
+					white_peace = AUE
+				}
+				else_if = {
+					limit = {
+						exists = AUH
+					}
+					AUH = { country_event = { ID = per_north_italian_war.21 } }
+					add_stability = 1
+					add_prestige = -25
+					random_owned_province = { create_revolt = 2 }
+					white_peace = AUH
+				}
+			}
+		}
+	}
+}

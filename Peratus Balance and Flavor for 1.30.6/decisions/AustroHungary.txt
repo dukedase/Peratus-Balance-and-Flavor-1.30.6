@@ -1,0 +1,121 @@
+country_decisions = {
+
+		ah_form_decision = {
+			major = yes
+			potential = {
+				tag = HAB
+				NOT = { exists = AUH }
+				owns_core_province = 134 # Vienna
+				exists = HUN
+				NOT = { has_country_flag = austria_hungary_flag }
+			}
+			allow = {
+				adm_tech = 10
+				is_free_or_tributary_trigger = yes
+				stability = 1
+				senior_union_with = HUN
+				is_at_war = no
+				AND = {
+					HUN = {
+						NOT = { num_of_cities = 40 }
+					}
+				}
+				transdanubia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}	
+				alfold_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				slovakia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}	
+				slavonia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				transylvania_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}	
+				southern_transylvania_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+				effect = {
+					set_country_flag = austria_hungary_flag
+					change_tag = AUH
+					inherit = HUN
+					add_accepted_culture = hungarian
+					add_legitimacy = 25
+					add_prestige = 25
+					set_government_rank = 3
+					if = {
+						limit = {
+							has_custom_ideas = no
+						}
+						country_event = { id = ideagroups.1 } #Swap Ideas
+					}
+						add_country_modifier = {
+							name = "centralization_modifier"
+							duration = 7300
+						}
+					transdanubia_area = {
+						add_province_modifier = {
+							name = "austrian_investment"
+							duration = -1
+						}
+					}
+					alfold_area = {
+						add_province_modifier = {
+							name = "austrian_investment"
+							duration = -1
+						}
+					}
+				}
+		}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

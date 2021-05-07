@@ -1,0 +1,75 @@
+country_decisions = {
+
+		aue_form_decision = {
+			major = yes
+			potential = {
+				tag =  HAB
+				NOT = { exists = AUE }
+				owns_core_province = 134 # Vienna
+				exists = HUN
+				exists = BOH
+				NOT = { has_country_flag = austrian_empire_flag }
+				}
+			allow = {
+				adm_tech = 10
+				is_free_or_tributary_trigger = yes
+				stability = 1
+				senior_union_with = BOH
+				is_at_war = no
+				AND = {
+					BOH = {
+						NOT = { num_of_cities = 30 }
+					}
+				}
+				bohemia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				erzgebirge_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				moravia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+				effect = {
+					set_country_flag = austrian_empire_flag
+					change_tag = AUE
+					inherit = BOH
+					add_accepted_culture = czech
+					add_legitimacy = 25
+					add_prestige = 25
+					set_government_rank = 3
+					if = {
+						limit = {
+							has_custom_ideas = no
+						}
+						country_event = { id = ideagroups.1 } #Swap Ideas
+					}
+						add_country_modifier = {
+							name = "centralization_modifier"
+							duration = 7300
+						}
+					bohemia_area = {
+						add_province_modifier = {
+							name = "austrian_investment"
+							duration = -1
+						}
+					}
+					erzgebirge_area = {
+						add_province_modifier = {
+							name = "austrian_investment"
+							duration = -1
+						}
+					}
+					moravia_area = {
+						add_province_modifier = {
+							name = "austrian_investment"
+							duration = -1
+						}
+					}
+				}
+		}
+}
